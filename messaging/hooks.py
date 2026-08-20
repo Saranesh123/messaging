@@ -25,8 +25,8 @@ app_license = "mit"
 # ------------------
 
 # include js, css files in header of desk.html
-# app_include_css = "/assets/messaging/css/messaging.css"
-# app_include_js = "/assets/messaging/js/messaging.js"
+app_include_css = "/assets/messaging/css/messaging.css"
+app_include_js = "/assets/messaging/js/messaging.js"
 
 # include js, css files in header of web template
 # web_include_css = "/assets/messaging/css/messaging.css"
@@ -83,12 +83,12 @@ app_license = "mit"
 # ------------
 
 # before_install = "messaging.install.before_install"
-# after_install = "messaging.install.after_install"
+after_install = "messaging.install.after_install"
 
 # Uninstallation
 # ------------
 
-# before_uninstall = "messaging.uninstall.before_uninstall"
+before_uninstall = "messaging.uninstall.before_uninstall"
 # after_uninstall = "messaging.uninstall.after_uninstall"
 
 # Integration Setup
