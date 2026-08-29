@@ -1,6 +1,6 @@
 app_name = "messaging"
 app_title = "Messaging"
-app_publisher = "SARANESH A & TANIA MONDAL"
+app_publisher = "SARANESH A"
 app_description = "Frappe Messaging"
 app_email = "saranesh2002@gmail.com"
 app_license = "mit"
@@ -137,13 +137,15 @@ before_uninstall = "messaging.uninstall.before_uninstall"
 # ---------------
 # Hook on document methods and events
 
-# doc_events = {
-# 	"*": {
-# 		"on_update": "method",
-# 		"on_cancel": "method",
-# 		"on_trash": "method"
-# 	}
-# }
+doc_events = {
+	"Notification Log": {
+		"after_insert": "messaging.api.handle_notification_log"
+	},
+ 
+	"User": {
+		"before_save": "messaging.api.update_chat_user"
+	}
+}
 
 # Scheduled Tasks
 # ---------------
