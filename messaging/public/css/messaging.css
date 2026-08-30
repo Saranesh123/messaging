@@ -166,7 +166,8 @@
     top: 0;
     right: 0;
     bottom: 0;
-    width: clamp(380px, 30vw, 560px);
+    width: 30%;
+    min-width: 320px;
     height: 100vh;
     background: var(--fchat-bg);
     backdrop-filter: blur(20px) saturate(160%);
@@ -914,23 +915,29 @@
     background: var(--fchat-border);
 }
 
-.fchat-msg { display: flex; flex-direction: column; max-width: 82%; }
+.fchat-msg { display: flex; flex-direction: column; max-width: 82%; min-width: 0; }
 .fchat-msg-theirs { align-self: flex-start; align-items: flex-start; }
 .fchat-msg-mine { align-self: flex-end; align-items: flex-end; }
 
 /* Integrated WhatsApp / Telegram Message Bubble Layout */
 .fchat-msg-bubble {
-    padding: 8px 10px 6px 12px;
+    display: block;
+    width: fit-content;
+    max-width: 100%;
+    min-width: 0;
+    padding: 8px 12px 6px;
     border-radius: 14px;
     font-size: 13px;
     line-height: 1.45;
-    word-break: break-word;
     position: relative;
-    display: inline-block;
 }
 
 .fchat-msg-text {
-    margin-right: 6px;
+    display: block;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    margin: 0 0 2px;
 }
 
 .fchat-msg-theirs .fchat-msg-bubble {
@@ -954,14 +961,10 @@
 
 /* Internal Time & Tick Metadata Layout */
 .fchat-msg-meta {
-    float: right;
-    display: inline-flex;
+    display: flex;
     align-items: center;
+    justify-content: flex-end;
     gap: 3px;
-    margin-left: 8px;
-    margin-top: 4px;
-    position: relative;
-    top: 2px;
 }
 
 .fchat-msg-time {
@@ -1831,6 +1834,78 @@
 .fchat-ai-summary-empty {
     font-size: 12.5px;
     color: var(--fchat-text-dim);
+}
+
+/* ----------------------------------------------------- Customer Insight */
+.fchat-ai-insight-stats {
+    display: flex;
+    gap: 8px;
+}
+
+.fchat-ai-insight-stat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 10px 6px;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--fchat-border);
+    min-width: 0;
+}
+
+.fchat-ai-insight-value {
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--fchat-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.fchat-ai-insight-stat-overdue .fchat-ai-insight-value { color: #ff6e8f; }
+
+.fchat-ai-insight-label {
+    font-size: 9.5px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--fchat-text-dim);
+}
+
+.fchat-ai-insight-payment {
+    font-size: 12px;
+    color: var(--fchat-text-dim);
+}
+
+.fchat-ai-insight-payment strong {
+    color: var(--fchat-text);
+}
+
+.fchat-ai-insight-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.fchat-ai-insight-open-customer,
+.fchat-ai-insight-view-invoices {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 212, 255, 0.3);
+    background: rgba(0, 212, 255, 0.08);
+    color: var(--fchat-accent-2);
+    font-size: 11.5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease;
+}
+
+.fchat-ai-insight-open-customer:hover,
+.fchat-ai-insight-view-invoices:hover {
+    background: rgba(0, 212, 255, 0.16);
 }
 
 .fchat-ai-action-item-list {

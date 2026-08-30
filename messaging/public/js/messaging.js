@@ -1,6 +1,7 @@
 const CHAT_API = "messaging.api";
 const CHAT_API_AI = "messaging.ai";
 const CHAT_API_AI_FEATURES = "messaging.ai_features";
+const CHAT_API_ERPNEXT = "messaging.ai_erpnext";
 const NOTIFICATION_AUDIO_PATH = "/assets/messaging/sounds/notification.mp3"; 
 const NOTIFICATION_BOT_USER = "notifications-bot@example.com";
 
@@ -240,6 +241,7 @@ messaging.chat = {
                             <div class="fchat-ask-ai-quick-actions" style="display:none;">
                                 <button class="fchat-ask-ai-chip fchat-ask-ai-summarize-btn">✨ Summarize this chat</button>
                                 <button class="fchat-ask-ai-chip fchat-ask-ai-action-items-btn">✅ Find action items</button>
+                                <button class="fchat-ask-ai-chip fchat-ask-ai-customer-insight-btn">🏢 Customer Insight</button>
                             </div>
                             <div class="fchat-ask-ai-empty">
                                 <span class="fchat-ask-ai-empty-icon">✨</span>
@@ -360,18 +362,24 @@ messaging.chat = {
             if (this.state.view === "groupThread") this.showGroupInfo();
         });
 
-        $(document).on("click.fchat_outside", (e) => {
-            // Note: the panel is now a persistent docked sidebar, not a small
-            // popup — it deliberately does NOT close on outside clicks, since
-            // the desk behind it stays visible and usable while it's open.
-            if (!$(e.target).closest(".fchat-member-menu-wrap").length) {
+        // Bound on the capture phase (not jQuery's bubble-phase .on()) so this
+        // reliably fires even if some other desk widget calls
+        // stopPropagation() on its own click handler — capture runs first.
+        document.addEventListener("click", (e) => {
+            const $target = $(e.target);
+            const clickedOutsideUnrelatedUI = !$target.closest(".fchat-toast, .fchat-lightbox").length;
+
+            if (this.state.open && clickedOutsideUnrelatedUI && this.$root.length && !this.$root[0].contains(e.target)) {
+                this.togglePanel(false);
+            }
+            if (!$target.closest(".fchat-member-menu-wrap").length) {
                 this.$root.find(".fchat-member-menu").hide();
             }
-            if (!$(e.target).closest(".fchat-ai-assist-wrap").length) {
+            if (!$target.closest(".fchat-ai-assist-wrap").length) {
                 this.$root.find(".fchat-ai-assist-menu").hide();
                 this.$root.find(".fchat-ai-assist-translate-row").hide();
             }
-        });
+        }, true);
 
         let searchTimeout;
         this.$root.find(".fchat-search-input").on("input", (e) => {
@@ -471,6 +479,7 @@ messaging.chat = {
         this.$root.find(".fchat-ask-ai-input").on("input", (e) => this.autoGrowTextarea(e.target));
         this.$root.find(".fchat-ask-ai-summarize-btn").on("click", () => this.summarizeConversation());
         this.$root.find(".fchat-ask-ai-action-items-btn").on("click", () => this.detectActionItems());
+        this.$root.find(".fchat-ask-ai-customer-insight-btn").on("click", () => this.checkCustomerInsight());
         this.$root.find(".fchat-catchup-banner").not(".fchat-ai-search-banner").on("click", () => this.openCatchUp());
         this.$root.find(".fchat-ai-search-banner").on("click", () => this.openChatSearch());
 
@@ -1434,7 +1443,10 @@ messaging.chat = {
         this.$root.find(".fchat-ask-ai-panel, .fchat-ask-ai-footer").show();
         this.$root.find(".fchat-ask-ai-summarize-btn").toggle(!!s.aiFeatures.conversation_summary);
         this.$root.find(".fchat-ask-ai-action-items-btn").toggle(!!s.aiFeatures.action_items);
-        this.$root.find(".fchat-ask-ai-quick-actions").toggle(!!s.aiFeatures.conversation_summary || !!s.aiFeatures.action_items);
+        this.$root.find(".fchat-ask-ai-customer-insight-btn").toggle(!!s.aiFeatures.customer_insight);
+        this.$root.find(".fchat-ask-ai-quick-actions").toggle(
+            !!s.aiFeatures.conversation_summary || !!s.aiFeatures.action_items || !!s.aiFeatures.customer_insight
+        );
         this.$root.find(".fchat-ask-ai-input").attr("placeholder", "Ask about this conversation...");
 
         this.refreshAIVisibility();
@@ -1618,6 +1630,110 @@ messaging.chat = {
         });
     },
 
+    checkCustomerInsight() {
+        const s = this.state;
+
+        const entry = { type: "customer_insight", loading: true, error: false, data: null };
+        s.askAiMessages.push(entry);
+        this.renderAskAiMessages();
+
+        const args = {};
+        if (s.askAiReturnView === "groupThread") {
+            args.group = s.activeGroup;
+        } else {
+            args.user = s.activeUser;
+        }
+
+        frappe.call({
+            method: `${CHAT_API_ERPNEXT}.get_customer_insight`,
+            args,
+        }).then((r) => {
+            entry.loading = false;
+            entry.data = r.message || { found: false };
+            this.renderAskAiMessages();
+        }).catch(() => {
+            entry.loading = false;
+            entry.error = true;
+            this.renderAskAiMessages();
+        });
+    },
+
+    formatCurrencyDisplay(amount, currency) {
+        const num = Number(amount) || 0;
+        const formatted = num.toLocaleString(undefined, { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        return currency ? `${currency} ${formatted}` : formatted;
+    },
+
+    buildCustomerInsightCard(entry) {
+        if (entry.loading) {
+            return $(`
+                <div class="fchat-ai-summary-card fchat-ai-summary-loading">
+                    <div class="fchat-ai-summary-header">🏢 Checking for a customer…</div>
+                    <span class="fchat-ai-dots"><span></span><span></span><span></span></span>
+                </div>
+            `);
+        }
+
+        if (entry.error) {
+            return $(`
+                <div class="fchat-ai-summary-card fchat-ai-summary-error">
+                    <div class="fchat-ai-summary-header">🏢 Customer Insight</div>
+                    <div class="fchat-ai-summary-empty">Something went wrong. Please try again.</div>
+                </div>
+            `);
+        }
+
+        const data = entry.data || {};
+
+        if (!data.found) {
+            return $(`
+                <div class="fchat-ai-summary-card">
+                    <div class="fchat-ai-summary-header">🏢 Customer Insight</div>
+                    <div class="fchat-ai-summary-empty">${frappe.utils.escape_html(data.reason || "No customer found in this conversation.")}</div>
+                </div>
+            `);
+        }
+
+        const currency = data.currency || "";
+        const paymentLine = data.last_payment_amount
+            ? `Latest payment: <strong>${this.formatCurrencyDisplay(data.last_payment_amount, currency)}</strong> on ${frappe.utils.escape_html(data.last_payment_date || "")}`
+            : "No payments recorded";
+
+        const $card = $(`
+            <div class="fchat-ai-summary-card fchat-ai-customer-insight-card">
+                <div class="fchat-ai-summary-header">🏢 ${frappe.utils.escape_html(data.customer_display_name)}</div>
+                <div class="fchat-ai-insight-stats">
+                    <div class="fchat-ai-insight-stat">
+                        <span class="fchat-ai-insight-value">${this.formatCurrencyDisplay(data.outstanding, currency)}</span>
+                        <span class="fchat-ai-insight-label">Outstanding</span>
+                    </div>
+                    <div class="fchat-ai-insight-stat fchat-ai-insight-stat-overdue">
+                        <span class="fchat-ai-insight-value">${this.formatCurrencyDisplay(data.overdue, currency)}</span>
+                        <span class="fchat-ai-insight-label">Overdue</span>
+                    </div>
+                    <div class="fchat-ai-insight-stat">
+                        <span class="fchat-ai-insight-value">${data.open_invoice_count || 0}</span>
+                        <span class="fchat-ai-insight-label">Open Invoices</span>
+                    </div>
+                </div>
+                <div class="fchat-ai-insight-payment">${paymentLine}</div>
+                <div class="fchat-ai-insight-actions">
+                    <button class="fchat-ai-insight-open-customer">Open Customer</button>
+                    <button class="fchat-ai-insight-view-invoices">View Invoices</button>
+                </div>
+            </div>
+        `);
+
+        $card.find(".fchat-ai-insight-open-customer").on("click", () => {
+            frappe.set_route("Form", "Customer", data.customer);
+        });
+        $card.find(".fchat-ai-insight-view-invoices").on("click", () => {
+            frappe.set_route("List", "Sales Invoice", { customer: data.customer });
+        });
+
+        return $card;
+    },
+
     renderAskAiMessages() {
         const s = this.state;
         const isGlobal = s.askAiMode === "global";
@@ -1643,6 +1759,11 @@ messaging.chat = {
 
             if (entry.type === "action_items") {
                 $wrap.append(this.buildActionItemsCard(entry));
+                return;
+            }
+
+            if (entry.type === "customer_insight") {
+                $wrap.append(this.buildCustomerInsightCard(entry));
                 return;
             }
 
