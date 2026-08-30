@@ -1,74 +1,74 @@
 {
- "actions": [],
- "allow_rename": 1,
- "creation": "2026-08-23 12:49:31.309041",
- "doctype": "DocType",
- "engine": "InnoDB",
- "field_order": [
-  "group_name",
-  "group_image",
-  "column_break_okds",
-  "posting_date",
-  "section_break_dngg",
-  "users"
- ],
- "fields": [
-  {
-   "fieldname": "group_name",
-   "fieldtype": "Data",
-   "label": "Group Name"
-  },
-  {
-   "fieldname": "group_image",
-   "fieldtype": "Attach Image",
-   "label": "Group Image"
-  },
-  {
-   "fieldname": "column_break_okds",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "Today",
-   "fieldname": "posting_date",
-   "fieldtype": "Date",
-   "label": "Posting Date",
-   "read_only": 1
-  },
-  {
-   "fieldname": "section_break_dngg",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "users",
-   "fieldtype": "Table",
-   "options": "Chat Group User"
-  }
- ],
- "grid_page_length": 50,
- "index_web_pages_for_search": 1,
- "links": [],
- "modified": "2026-08-23 12:52:03.188967",
- "modified_by": "Administrator",
- "module": "Messaging",
- "name": "Chat Group",
- "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "export": 1,
-   "print": 1,
-   "read": 1,
-   "report": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
- "row_format": "Dynamic",
- "rows_threshold_for_grid_search": 20,
- "sort_field": "modified",
- "sort_order": "DESC",
- "states": []
+  "actions": [],
+  "allow_rename": 1,
+  "creation": "2026-08-23 12:49:31.309041",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "group_name",
+    "group_image",
+    "column_break_okds",
+    "posting_date",
+    "section_break_dngg",
+    "users"
+  ],
+  "fields": [
+    {
+      "fieldname": "group_name",
+      "fieldtype": "Data",
+      "label": "Group Name"
+    },
+    {
+      "fieldname": "group_image",
+      "fieldtype": "Attach Image",
+      "label": "Group Image"
+    },
+    {
+      "fieldname": "column_break_okds",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "Today",
+      "fieldname": "posting_date",
+      "fieldtype": "Date",
+      "label": "Posting Date",
+      "read_only": 1
+    },
+    {
+      "fieldname": "section_break_dngg",
+      "fieldtype": "Section Break"
+    },
+    {
+      "fieldname": "users",
+      "fieldtype": "Table",
+      "options": "Chat Group User"
+    }
+  ],
+  "grid_page_length": 50,
+  "index_web_pages_for_search": 1,
+  "links": [],
+  "modified": "2026-08-23 12:52:03.188967",
+  "modified_by": "Administrator",
+  "module": "Messaging",
+  "name": "Chat Group",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "export": 1,
+      "print": 1,
+      "read": 1,
+      "report": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "row_format": "Dynamic",
+  "rows_threshold_for_grid_search": 20,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
 }

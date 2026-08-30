@@ -1,179 +1,187 @@
 {
- "actions": [],
- "allow_rename": 1,
- "creation": "2026-08-23 12:48:12.638829",
- "doctype": "DocType",
- "engine": "InnoDB",
- "field_order": [
-  "chat_icon",
-  "column_break_ufdx",
-  "notification_sound",
-  "section_break_wewh",
-  "enabled",
-  "platform",
-  "column_break_plgp",
-  "model",
-  "api_key",
-  "section_break_ai_behavior",
-  "system_prompt",
-  "column_break_ai_behavior_2",
-  "max_tokens",
-  "temperature",
-  "section_break_ai_features",
-  "enable_ask_this_chat",
-  "enable_conversation_summary",
-  "enable_catch_me_up",
-  "column_break_ai_features_2",
-  "enable_reply_assistant",
-  "enable_action_items",
-  "enable_chat_search"
- ],
- "fields": [
-  {
-   "fieldname": "chat_icon",
-   "fieldtype": "Attach Image",
-   "label": "Chat Icon"
-  },
-  {
-   "fieldname": "notification_sound",
-   "fieldtype": "Attach",
-   "label": "Notification Sound"
-  },
-  {
-   "fieldname": "column_break_ufdx",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_wewh",
-   "fieldtype": "Section Break",
-   "label": "AI Provider"
-  },
-  {
-   "default": "0",
-   "description": "Master switch. When off, no AI feature will run regardless of the toggles below.",
-   "fieldname": "enabled",
-   "fieldtype": "Check",
-   "label": "AI Enabled"
-  },
-  {
-   "fieldname": "platform",
-   "fieldtype": "Select",
-   "label": "Platform",
-   "options": "\nChatGPT\nGemini\nClaude"
-  },
-  {
-   "fieldname": "column_break_plgp",
-   "fieldtype": "Column Break"
-  },
-  {
-   "description": "Exact model identifier for the selected platform, e.g. gpt-4o-mini, gemini-2.5-flash, claude-sonnet-4-6. Check the provider's current model list \u2014 older model names get retired periodically.",
-   "fieldname": "model",
-   "fieldtype": "Data",
-   "label": "Model"
-  },
-  {
-   "fieldname": "api_key",
-   "fieldtype": "Password",
-   "label": "API Key"
-  },
-  {
-   "fieldname": "section_break_ai_behavior",
-   "fieldtype": "Section Break",
-   "label": "AI Behavior"
-  },
-  {
-   "description": "Sent as the system prompt on every AI call. Leave blank to use the built-in default.",
-   "fieldname": "system_prompt",
-   "fieldtype": "Small Text",
-   "label": "System Prompt"
-  },
-  {
-   "fieldname": "column_break_ai_behavior_2",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "800",
-   "fieldname": "max_tokens",
-   "fieldtype": "Int",
-   "label": "Max Tokens"
-  },
-  {
-   "default": "0.4",
-   "fieldname": "temperature",
-   "fieldtype": "Float",
-   "label": "Temperature"
-  },
-  {
-   "fieldname": "section_break_ai_features",
-   "fieldtype": "Section Break",
-   "label": "AI Features \u2014 Phase 1"
-  },
-  {
-   "default": "0",
-   "fieldname": "enable_ask_this_chat",
-   "fieldtype": "Check",
-   "label": "Ask This Chat"
-  },
-  {
-   "default": "0",
-   "fieldname": "enable_conversation_summary",
-   "fieldtype": "Check",
-   "label": "Conversation Summary"
-  },
-  {
-   "default": "0",
-   "fieldname": "enable_catch_me_up",
-   "fieldtype": "Check",
-   "label": "Catch Me Up"
-  },
-  {
-   "fieldname": "column_break_ai_features_2",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "0",
-   "fieldname": "enable_reply_assistant",
-   "fieldtype": "Check",
-   "label": "AI Reply Assistant"
-  },
-  {
-   "default": "0",
-   "fieldname": "enable_action_items",
-   "fieldtype": "Check",
-   "label": "AI Action Items"
-  },
-  {
-   "default": "0",
-   "description": "Lightweight cross-chat search: answers questions using keyword-matched messages from across the user's own direct chats and groups. Not company-wide \u2014 does not include ERPNext data.",
-   "fieldname": "enable_chat_search",
-   "fieldtype": "Check",
-   "label": "Ask AI (Search My Chats)"
-  }
- ],
- "grid_page_length": 50,
- "index_web_pages_for_search": 1,
- "issingle": 1,
- "links": [],
- "modified": "2026-08-24 08:54:41.018274",
- "modified_by": "Administrator",
- "module": "Messaging",
- "name": "Chat Settings",
- "owner": "Administrator",
- "permissions": [
-  {
-   "create": 1,
-   "delete": 1,
-   "email": 1,
-   "print": 1,
-   "read": 1,
-   "role": "System Manager",
-   "share": 1,
-   "write": 1
-  }
- ],
- "row_format": "Dynamic",
- "rows_threshold_for_grid_search": 20,
- "sort_field": "modified",
- "sort_order": "DESC",
- "states": []
+  "actions": [],
+  "allow_rename": 1,
+  "creation": "2026-08-23 12:48:12.638829",
+  "doctype": "DocType",
+  "engine": "InnoDB",
+  "field_order": [
+    "chat_icon",
+    "column_break_ufdx",
+    "notification_sound",
+    "section_break_wewh",
+    "enabled",
+    "platform",
+    "column_break_plgp",
+    "model",
+    "api_key",
+    "section_break_ai_behavior",
+    "system_prompt",
+    "column_break_ai_behavior_2",
+    "max_tokens",
+    "temperature",
+    "section_break_ai_features",
+    "enable_ask_this_chat",
+    "enable_conversation_summary",
+    "enable_catch_me_up",
+    "column_break_ai_features_2",
+    "enable_reply_assistant",
+    "enable_action_items",
+    "enable_chat_search",
+    "enable_erpnext_search"
+  ],
+  "fields": [
+    {
+      "fieldname": "chat_icon",
+      "fieldtype": "Attach Image",
+      "label": "Chat Icon"
+    },
+    {
+      "fieldname": "notification_sound",
+      "fieldtype": "Attach",
+      "label": "Notification Sound"
+    },
+    {
+      "fieldname": "column_break_ufdx",
+      "fieldtype": "Column Break"
+    },
+    {
+      "fieldname": "section_break_wewh",
+      "fieldtype": "Section Break",
+      "label": "AI Provider"
+    },
+    {
+      "default": "0",
+      "description": "Master switch. When off, no AI feature will run regardless of thetoggles below.",
+      "fieldname": "enabled",
+      "fieldtype": "Check",
+      "label": "AI Enabled"
+    },
+    {
+      "fieldname": "platform",
+      "fieldtype": "Select",
+      "label": "Platform",
+      "options": "\nChatGPT\nGemini\nClaude"
+    },
+    {
+      "fieldname": "column_break_plgp",
+      "fieldtype": "Column Break"
+    },
+    {
+      "description": "Exact model identifier for the selected platform, e.g.gpt-4o-mini, gemini-2.5-flash, claude-sonnet-4-6. Check the provider's currentmodel list — older model names get retired periodically.",
+      "fieldname": "model",
+      "fieldtype": "Data",
+      "label": "Model"
+    },
+    {
+      "fieldname": "api_key",
+      "fieldtype": "Password",
+      "label": "API Key"
+    },
+    {
+      "fieldname": "section_break_ai_behavior",
+      "fieldtype": "Section Break",
+      "label": "AI Behavior"
+    },
+    {
+      "description": "Sent as the system prompt on every AI call. Leave blank to usethe built-in default.",
+      "fieldname": "system_prompt",
+      "fieldtype": "Small Text",
+      "label": "System Prompt"
+    },
+    {
+      "fieldname": "column_break_ai_behavior_2",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "800",
+      "fieldname": "max_tokens",
+      "fieldtype": "Int",
+      "label": "Max Tokens"
+    },
+    {
+      "default": "0.4",
+      "fieldname": "temperature",
+      "fieldtype": "Float",
+      "label": "Temperature"
+    },
+    {
+      "fieldname": "section_break_ai_features",
+      "fieldtype": "Section Break",
+      "label": "AI Features — Phase 1"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_ask_this_chat",
+      "fieldtype": "Check",
+      "label": "Ask This Chat"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_conversation_summary",
+      "fieldtype": "Check",
+      "label": "Conversation Summary"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_catch_me_up",
+      "fieldtype": "Check",
+      "label": "Catch Me Up"
+    },
+    {
+      "fieldname": "column_break_ai_features_2",
+      "fieldtype": "Column Break"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_reply_assistant",
+      "fieldtype": "Check",
+      "label": "AI Reply Assistant"
+    },
+    {
+      "default": "0",
+      "fieldname": "enable_action_items",
+      "fieldtype": "Check",
+      "label": "AI Action Items"
+    },
+    {
+      "default": "0",
+      "description": "Lightweight cross-chat search: answers questions usingkeyword-matched messages from across the user's own direct chats and groups. Notcompany-wide — does not include ERPNext data.",
+      "fieldname": "enable_chat_search",
+      "fieldtype": "Check",
+      "label": "Ask AI (Search My Chats)"
+    },
+    {
+      "default": "0",
+      "description": "Search and answer questions using permission-aware data from the ERPNext/Frappe DocTypes available to the current user.",
+      "fieldname": "enable_erpnext_search",
+      "fieldtype": "Check",
+      "label": "Ask AI (ERPNext)"
+    }
+  ],
+  "grid_page_length": 50,
+  "index_web_pages_for_search": 1,
+  "issingle": 1,
+  "links": [],
+  "modified": "2026-08-24 08:54:41.018274",
+  "modified_by": "Administrator",
+  "module": "Messaging",
+  "name": "Chat Settings",
+  "owner": "Administrator",
+  "permissions": [
+    {
+      "create": 1,
+      "delete": 1,
+      "email": 1,
+      "print": 1,
+      "read": 1,
+      "role": "System Manager",
+      "share": 1,
+      "write": 1
+    }
+  ],
+  "row_format": "Dynamic",
+  "rows_threshold_for_grid_search": 20,
+  "sort_field": "modified",
+  "sort_order": "DESC",
+  "states": []
 }
