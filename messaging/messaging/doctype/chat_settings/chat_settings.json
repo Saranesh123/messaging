@@ -26,7 +26,9 @@
   "column_break_ai_features_2",
   "enable_reply_assistant",
   "enable_action_items",
-  "enable_chat_search"
+  "enable_chat_search",
+  "section_break_ai_features_p2",
+  "enable_entity_lookup"
  ],
  "fields": [
   {
@@ -148,6 +150,18 @@
    "fieldname": "enable_chat_search",
    "fieldtype": "Check",
    "label": "Ask AI (Search My Chats)"
+  },
+  {
+   "fieldname": "section_break_ai_features_p2",
+   "fieldtype": "Section Break",
+   "label": "AI Features \u2014 Phase 2 (ERPNext)"
+  },
+  {
+   "default": "0",
+   "description": "Detects real records of ANY doctype (not just Customer) mentioned in a conversation, using Frappe's Global Search index, then lets the user confirm before pulling details. Always respects the viewing user's own Frappe permissions \u2014 never bypasses them. Coverage depends on which doctypes are enabled under Global Search Settings.",
+   "fieldname": "enable_entity_lookup",
+   "fieldtype": "Check",
+   "label": "Entity Lookup (Any Record)"
   }
  ],
  "grid_page_length": 50,

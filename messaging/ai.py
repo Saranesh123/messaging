@@ -24,6 +24,7 @@ FEATURE_FIELD_MAP = {
 	"reply_assistant": "enable_reply_assistant",
 	"action_items": "enable_action_items",
 	"chat_search": "enable_chat_search",
+	"entity_lookup": "enable_entity_lookup",
 }
 
 
